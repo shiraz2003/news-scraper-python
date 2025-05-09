@@ -25,3 +25,23 @@ def parse_articles(html):
         articles.append([title, link])
     return articles
 
+def save_to_csv(articles, filename='articles.csv'):
+    try:
+        with open(filename, 'w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Title', 'Link'])
+            writer.writerows(articles)
+        print(f"✅ Saved {len(articles)} articles to {filename}")
+    except Exception as e:
+        print(f"Error writing to CSV: {e}")
+
+def main():
+    url = 'https://www.aljazeera.com/news/'
+    html = fetch_page(url)
+    if html:
+        articles = parse_articles(html)
+        save_to_csv(articles)
+
+if __name__ == '__main__':
+    main()
+
